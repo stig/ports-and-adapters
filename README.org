@@ -1,0 +1,36 @@
+#+title: Exploring Hexagonal Architecture in Clojure
+
+I'm a fan of the Hexagonal Architecture / Ports-and-Adapters pattern.
+I'm used to implementing it with =defprotocol= and =defrecord= in
+Clojure, but this approach has drawbacks when you add Clojure Spec to
+the mix. I explored (very lightly!) three approaches:
+
+1. The Protocol + Record way I'm used to
+2. Multimethods
+3. Simple map of functions
+
+
+The TL;DR is that the last one plays much better with Spec than the
+other two approaches.
+
+Specifically, if I made changes to the =uses= namespace and
+re-evaluated that into my REPL, I struggled to get my demo to work
+without launching a fresh repl. (Sometimes I could make it work with a
+carefully ordered re-eval of the other files, but not always.) The
+map-of-functions approach was much more forgiving.
+
+
+* License
+
+Copyright © 2022 Stig Brautaset
+
+This program and the accompanying materials are made available under the
+terms of the Eclipse Public License 2.0 which is available at
+http://www.eclipse.org/legal/epl-2.0.
+
+This Source Code may also be made available under the following Secondary
+Licenses when the conditions for such availability set forth in the Eclipse
+Public License, v. 2.0 are satisfied: GNU General Public License as published by
+the Free Software Foundation, either version 2 of the License, or (at your
+option) any later version, with the GNU Classpath Exception which is available
+at https://www.gnu.org/software/classpath/license.html.
