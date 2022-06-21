@@ -32,12 +32,20 @@
        (let [lst (storage/list-all adapter)]
          (is (= 1 (count lst)))
          (is (s/valid? ::entities/todo (first lst)))
-         (is (= "item 1" (-> lst first ::entities/text)))))
+         (is (= "item 1" (-> lst first ::entities/text)))))))
 
-     (testing "store with more than one item"
-       (dotimes [i 9]
-         (storage/add adapter (str "item " i)))
-       (is (= 10 (count (storage/list-all adapter))))))))
+  (handler
+   (fn [adapter]
+     (testing "we can add more than one item"
+       (let [items (map #(str "item " %) (range 10))]
+         (doseq [item items]
+           (storage/add adapter item))
+         (is (= 10 (count (storage/list-all adapter))))
+
+         (testing "return order is the same as added"
+           (let [lst (->> (storage/list-all adapter)
+                          (map ::entities/text))]
+             (is (= lst items)))))))))
 
 (defn- mark-done-test [handler]
   (handler
